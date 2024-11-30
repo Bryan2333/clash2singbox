@@ -66,7 +66,7 @@ interface DnsConfig {
     disable_expire: boolean;
     independent_cache?: boolean;
     reverse_mapping?: boolean;
-    fakeip: {
+    fakeip?: {
         enabled: boolean;
         inet4_range?: string;
         inet6_range?: string;

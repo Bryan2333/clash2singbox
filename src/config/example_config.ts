@@ -35,9 +35,14 @@ const ExampleConfig: ConfigModel = {
                 address: "rcode://success",
             },
             {
-                tag: "dns_dnssb",
-                address: "tcp://45.11.45.11",
+                tag: "dns_opendns",
+                address: "tcp://208.67.222.222",
                 detour: "select",
+            },
+            {
+                tag: "dns_tencent",
+                address: "119.29.29.29",
+                detour: "direct",
             },
         ],
         rules: [
@@ -47,13 +52,13 @@ const ExampleConfig: ConfigModel = {
                 rule_set: "geosite-category-ads-all",
             },
             {
-                server: "dns_local",
+                server: "dns_tencent",
                 rule_set: ["geosite-private"],
                 domain: ["ping.archlinux.org"],
                 domain_keyword: ["ntp"],
             },
             {
-                server: "dns_fakeip",
+                server: "dns_tencent",
                 rewrite_ttl: 10,
                 rule_set: [
                     "geosite-private",
@@ -63,23 +68,21 @@ const ExampleConfig: ConfigModel = {
                     "geosite-games-cn",
                     "geosite-cn",
                     "geosite-jetbrains-cn",
+                ],
+            },
+            {
+                server: "dns_fakeip",
+                rewrite_ttl: 10,
+                rule_set: [
                     "geosite-geolocation-!cn",
                     "geosite-bytedance-!cn",
                     "geosite-tiktok",
                 ],
             },
             {
-                server: "dns_dnssb",
-                rewrite_ttl: 10,
+                server: "dns_opendns",
                 client_subnet: "114.114.114.114",
-                type: "logical",
-                mode: "and",
-                rules: [
-                    {
-                        rule_set: "geosite-cn",
-                        invert: true,
-                    },
-                ],
+                query_type: ["A", "AAAA"],
             },
         ],
         final: "dns_local",
@@ -152,10 +155,6 @@ const ExampleConfig: ConfigModel = {
     route: {
         rules: [
             {
-                inbound: "direct-only",
-                outbound: "direct",
-            },
-            {
                 protocol: "dns",
                 outbound: "dns-out",
             },
@@ -165,7 +164,7 @@ const ExampleConfig: ConfigModel = {
             },
             {
                 type: "logical",
-                mode: "and",
+                mode: "or",
                 rules: [
                     {
                         protocol: ["tls", "http", "quic", "ssh"],
