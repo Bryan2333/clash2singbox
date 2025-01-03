@@ -97,6 +97,20 @@ const ExampleConfig: ConfigModel = {
     },
     inbounds: [
         {
+            type: "socks",
+            tag: "direct-only",
+            listen: "127.0.0.1",
+            listen_port: 30000,
+            sniff: true,
+        },
+        {
+            type: "socks",
+            tag: "direct-only",
+            listen: "::1",
+            listen_port: 30000,
+            sniff: true,
+        },
+        {
             type: "mixed",
             tag: "mixed-in",
             listen: "127.0.0.1",
@@ -160,6 +174,10 @@ const ExampleConfig: ConfigModel = {
             },
             {
                 network: "udp",
+                outbound: "direct",
+            },
+            {
+                inbound: "direct-only",
                 outbound: "direct",
             },
             {
