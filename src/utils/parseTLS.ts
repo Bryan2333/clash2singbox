@@ -5,7 +5,7 @@ export function parseTLS(
     oldNode: VmessInClash | VlessInClash | TrojanInClash
 ): TlsInSingbox | undefined {
     const tlsconfig: TlsInSingbox = {
-        enabled: oldNode.tls ?? false,
+        enabled: oldNode.tls ?? true,
         insecure: oldNode["skip-cert-verify"],
         alpn: oldNode.alpn,
         utls: oldNode["client-fingerprint"]
