@@ -1,21 +1,26 @@
 import { BaseOutbound, SelectorInSingbox } from "../types/sing_box_type";
 import ExampleConfig from "../config/example_config";
 
-export function generateConfig(newProxies: BaseOutbound[]) {
-    const newProxiesNames = newProxies.map((proxy) => proxy.tag);
+export function generateConfig(
+    newProxies: { name: string; proxies: BaseOutbound[] }[]
+) {
+    const selectOutbound = ExampleConfig.outbounds.find(
+        (outbound) => outbound.tag === "select"
+    );
 
     try {
-        const selectOutbound = ExampleConfig.outbounds.find(
-            (outbound) => outbound.tag === "select"
-        );
+        for (const proxy of newProxies) {
+            const newProxiesNames = proxy.proxies.map((proxy) => proxy.tag);
 
-        if (selectOutbound) {
-            (selectOutbound as SelectorInSingbox).outbounds?.push(
-                ...newProxiesNames
-            );
+            ExampleConfig.outbounds.push({
+                type: "selector",
+                tag: proxy.name,
+                outbounds: newProxiesNames,
+            });
+
+            ExampleConfig.outbounds.push(...proxy.proxies);
+            selectOutbound?.outbounds?.push(proxy.name);
         }
-
-        ExampleConfig.outbounds.push(...newProxies);
 
         console.log(JSON.stringify(ExampleConfig, null, 2));
     } catch (error) {
