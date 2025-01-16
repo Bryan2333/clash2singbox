@@ -2,29 +2,25 @@ import axios from "axios";
 import YAML from "yaml";
 import { BaseProxyInClash } from "../types/clash_type";
 
-function parseEnvVar(input: string) {
-    const pairs = input.match(/(\S+?=[^\s]+)/g); // 匹配每组 name=url
-    if (!pairs) return [];
-
-    return pairs.map((pair) => {
-        const [name, ...urlParts] = pair.split("=");
-        return {
-            name,
-            url: urlParts.join("="),
-        };
-    });
-}
-
 export async function fetchProxies(): Promise<
     { name: string; content: BaseProxyInClash[] }[]
 > {
     try {
-        const subscriptionURL = process.env.subURL || "";
-        if (!subscriptionURL) throw new Error("Missing subscription URL");
+        const args = process.argv.slice(2);
+
+        const subGroup: { name: string; url: string }[] = [];
+        args.forEach((arg) => {
+            if (arg.startsWith("--sub=")) {
+                const pair = arg.slice("--sub=".length);
+                const [name, ...urlParts] = pair.split("=");
+                subGroup.push({
+                    name: name,
+                    url: urlParts.join("="),
+                });
+            }
+        });
 
         const proxies = [];
-
-        const subGroup = parseEnvVar(subscriptionURL);
 
         for (const sub of subGroup) {
             const content = (await axios.get(sub.url)).data;
