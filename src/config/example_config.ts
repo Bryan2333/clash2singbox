@@ -31,10 +31,6 @@ const ExampleConfig: ConfigModel = {
                 address: "fakeip",
             },
             {
-                tag: "dns_block",
-                address: "rcode://success",
-            },
-            {
                 tag: "dns_opendns",
                 address: "tcp://208.67.222.222",
                 detour: "select",
@@ -46,11 +42,6 @@ const ExampleConfig: ConfigModel = {
             },
         ],
         rules: [
-            {
-                server: "dns_block",
-                disable_cache: true,
-                rule_set: "geosite-category-ads-all",
-            },
             {
                 server: "dns_tencent",
                 rule_set: ["geosite-private"],
@@ -206,10 +197,6 @@ const ExampleConfig: ConfigModel = {
                 outbound: "select",
             },
             {
-                rule_set: "geosite-category-ads-all",
-                outbound: "block",
-            },
-            {
                 domain_regex: [".*suse\\.org\\.cn$"],
                 outbound: "select",
             },
@@ -250,13 +237,6 @@ const ExampleConfig: ConfigModel = {
             },
         ],
         rule_set: [
-            {
-                tag: "geosite-category-ads-all",
-                type: "remote",
-                format: "binary",
-                url: "https://gcore.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs",
-                download_detour: "direct",
-            },
             {
                 tag: "geosite-microsoft-cn",
                 type: "remote",
