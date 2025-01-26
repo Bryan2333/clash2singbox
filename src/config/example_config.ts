@@ -23,7 +23,7 @@ const ExampleConfig: ConfigModel = {
         servers: [
             {
                 tag: "dns_local",
-                address: "local",
+                address: "dhcp://auto",
                 detour: "direct",
             },
             {
@@ -34,31 +34,33 @@ const ExampleConfig: ConfigModel = {
                 tag: "dns_opendns",
                 address: "tcp://208.67.222.222",
                 detour: "select",
-            },
-            {
-                tag: "dns_tencent",
-                address: "119.29.29.29",
-                detour: "direct",
+                strategy: "ipv4_only",
             },
         ],
         rules: [
             {
-                server: "dns_tencent",
-                rule_set: ["geosite-private"],
-                domain: ["ping.archlinux.org"],
-                domain_keyword: ["ntp"],
-            },
-            {
-                server: "dns_tencent",
+                server: "dns_local",
                 rewrite_ttl: 10,
-                rule_set: [
-                    "geosite-private",
-                    "geosite-microsoft-cn",
-                    "geosite-apple-cn",
-                    "geosite-google-cn",
-                    "geosite-games-cn",
-                    "geosite-cn",
-                    "geosite-jetbrains-cn",
+                type: "logical",
+                mode: "and",
+                rules: [
+                    {
+                        domain_regex: [".*suse\\.org\\.cn$"],
+                        invert: true,
+                    },
+                    {
+                        rule_set: [
+                            "geosite-private",
+                            "geosite-microsoft-cn",
+                            "geosite-apple-cn",
+                            "geosite-google-cn",
+                            "geosite-games-cn",
+                            "geosite-cn",
+                            "geosite-jetbrains-cn",
+                        ],
+                        domain: ["ping.archlinux.org"],
+                        domain_keyword: ["ntp"],
+                    },
                 ],
             },
             {
@@ -77,7 +79,6 @@ const ExampleConfig: ConfigModel = {
             },
         ],
         final: "dns_local",
-        strategy: "ipv4_only",
         disable_cache: false,
         disable_expire: false,
         fakeip: {

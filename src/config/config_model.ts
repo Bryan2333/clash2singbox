@@ -58,6 +58,7 @@ interface DnsConfig {
         tag: string;
         address: string;
         detour?: string;
+        strategy?: string;
     }[];
     rules: DnsRule[];
     final: string;
