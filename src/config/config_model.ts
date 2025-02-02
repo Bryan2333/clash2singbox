@@ -28,6 +28,7 @@ interface ExperimentalConfig {
 }
 
 interface CommonRule {
+    action?: string;
     rules?: CommonRule[];
     rule_set?: string | string[];
     network?: string | string[];
