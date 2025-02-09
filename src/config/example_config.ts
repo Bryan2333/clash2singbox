@@ -59,13 +59,11 @@ const ExampleConfig: ConfigModel = {
                             "geosite-jetbrains-cn",
                         ],
                         domain: ["ping.archlinux.org"],
-                        domain_keyword: ["ntp"],
                     },
                 ],
             },
             {
                 server: "dns_fakeip",
-                rewrite_ttl: 10,
                 rule_set: [
                     "geosite-geolocation-!cn",
                     "geosite-bytedance-!cn",
@@ -74,7 +72,6 @@ const ExampleConfig: ConfigModel = {
             },
             {
                 server: "dns_opendns",
-                client_subnet: "114.114.114.114",
                 query_type: ["A", "AAAA"],
             },
         ],
@@ -90,45 +87,39 @@ const ExampleConfig: ConfigModel = {
     inbounds: [
         {
             type: "socks",
-            tag: "direct-only",
+            tag: "direct-only-v4",
             listen: "127.0.0.1",
             listen_port: 30000,
-            sniff: true,
         },
         {
             type: "socks",
-            tag: "direct-only",
+            tag: "direct-only-v6",
             listen: "::1",
             listen_port: 30000,
-            sniff: true,
         },
         {
             type: "mixed",
-            tag: "mixed-in",
+            tag: "mixed-in-v4",
             listen: "127.0.0.1",
             listen_port: 7890,
-            sniff: true,
         },
         {
             type: "mixed",
-            tag: "mixed-in",
+            tag: "mixed-in-v6",
             listen: "::1",
             listen_port: 7890,
-            sniff: true,
         },
         {
             type: "tproxy",
-            tag: "tproxy-in",
+            tag: "tproxy-in-v4",
             listen: "127.0.0.1",
             listen_port: 7894,
-            sniff: true,
         },
         {
             type: "tproxy",
-            tag: "tproxy-in",
+            tag: "tproxy-in-v6",
             listen: "::1",
             listen_port: 7894,
-            sniff: true,
         },
     ],
     outbounds: [
@@ -149,27 +140,25 @@ const ExampleConfig: ConfigModel = {
             type: "direct",
             tag: "direct",
         },
-        {
-            type: "block",
-            tag: "block",
-        },
-        {
-            type: "dns",
-            tag: "dns-out",
-        },
     ],
     route: {
         rules: [
             {
+                action: "sniff",
+            },
+            {
                 protocol: "dns",
-                outbound: "dns-out",
+                action: "hijack-dns",
             },
             {
                 network: "udp",
                 outbound: "direct",
             },
             {
-                inbound: "direct-only",
+                inbound: [
+                    "direct-only-v4",
+                    "direct-only-v6",
+                ],
                 outbound: "direct",
             },
             {
