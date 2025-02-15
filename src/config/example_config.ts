@@ -23,24 +23,22 @@ const ExampleConfig: ConfigModel = {
         servers: [
             {
                 tag: "dns_local",
-                address: "dhcp://auto",
+                address: "system",
+                detour: "direct",
+            },
+            {
+                tag: "dns_tencent",
+                address: "119.29.29.29",
                 detour: "direct",
             },
             {
                 tag: "dns_fakeip",
                 address: "fakeip",
             },
-            {
-                tag: "dns_opendns",
-                address: "tcp://208.67.222.222",
-                detour: "select",
-                strategy: "ipv4_only",
-            },
         ],
         rules: [
             {
-                server: "dns_local",
-                rewrite_ttl: 10,
+                server: "dns_tencent",
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -63,15 +61,21 @@ const ExampleConfig: ConfigModel = {
                 ],
             },
             {
-                server: "dns_fakeip",
-                rule_set: [
-                    "geosite-geolocation-!cn",
-                    "geosite-bytedance-!cn",
-                    "geosite-tiktok",
+                server: "dns_tencent",
+                type: "logical",
+                mode: "and",
+                rules: [
+                    {
+                        rule_set: ["geosite-geolocation-!cn"],
+                        invert: true,
+                    },
+                    {
+                        rule_set: "geoip-cn",
+                    },
                 ],
             },
             {
-                server: "dns_opendns",
+                server: "dns_fakeip",
                 query_type: ["A", "AAAA"],
             },
         ],
