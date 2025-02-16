@@ -40,37 +40,48 @@ const ExampleConfig: ConfigModel = {
             {
                 server: "dns_tencent",
                 type: "logical",
-                mode: "and",
+                mode: "or",
                 rules: [
+                    // 直连入口
                     {
-                        domain_regex: [".*suse\\.org\\.cn$"],
-                        invert: true,
+                        inbound: ["direct-only-v4", "direct-only-v6"],
                     },
+                    // 国内常用网站
                     {
-                        rule_set: [
-                            "geosite-private",
-                            "geosite-microsoft-cn",
-                            "geosite-apple-cn",
-                            "geosite-google-cn",
-                            "geosite-games-cn",
-                            "geosite-cn",
-                            "geosite-jetbrains-cn",
+                        type: "logical",
+                        mode: "and",
+                        rules: [
+                            {
+                                domain_regex: [".*suse\\.org\\.cn$"],
+                                invert: true,
+                            },
+                            {
+                                rule_set: [
+                                    "geosite-private",
+                                    "geosite-microsoft-cn",
+                                    "geosite-apple-cn",
+                                    "geosite-google-cn",
+                                    "geosite-games-cn",
+                                    "geosite-cn",
+                                    "geosite-jetbrains-cn",
+                                ],
+                                domain: ["ping.archlinux.org"],
+                            },
                         ],
-                        domain: ["ping.archlinux.org"],
                     },
-                ],
-            },
-            {
-                server: "dns_tencent",
-                type: "logical",
-                mode: "and",
-                rules: [
+                    // 国内冷门网站
                     {
-                        rule_set: ["geosite-geolocation-!cn"],
-                        invert: true,
-                    },
-                    {
-                        rule_set: "geoip-cn",
+                        type: "logical",
+                        mode: "and",
+                        rules: [
+                            {
+                                rule_set: ["geosite-geolocation-!cn"],
+                                invert: true,
+                            },
+                            {
+                                rule_set: "geoip-cn",
+                            },
+                        ],
                     },
                 ],
             },
