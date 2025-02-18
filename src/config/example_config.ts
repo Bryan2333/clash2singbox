@@ -27,20 +27,30 @@ const ExampleConfig: ConfigModel = {
                 detour: "direct",
             },
             {
-                tag: "dns_fakeip",
-                address: "fakeip",
+                tag: "dns_alidns_v4",
+                address: "223.5.5.5",
+                strategy: "ipv4_only",
+                detour: "direct",
             },
             {
-                tag: "dns_opendns",
-                address: "tcp://208.67.222.222",
-                detour: "select",
-                strategy: "ipv4_only",
+                tag: "dns_alidns",
+                address: "h3://dns.alidns.com/dns-query",
+                detour: "direct",
+                address_resolver: "dns_local",
+                address_strategy: "prefer_ipv6",
+            },
+            {
+                tag: "dns_fakeip",
+                address: "fakeip",
             },
         ],
         rules: [
             {
-                server: "dns_local",
-                rewrite_ttl: 10,
+                server: "dns_alidns",
+                inbound: ["direct-only-v4", "direct-only-v6"],
+            },
+            {
+                server: "dns_alidns",
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -62,16 +72,23 @@ const ExampleConfig: ConfigModel = {
                     },
                 ],
             },
+            // 国内冷门网站
             {
-                server: "dns_fakeip",
-                rule_set: [
-                    "geosite-geolocation-!cn",
-                    "geosite-bytedance-!cn",
-                    "geosite-tiktok",
+                server: "dns_alidns_v4",
+                type: "logical",
+                mode: "and",
+                rules: [
+                    {
+                        rule_set: ["geosite-geolocation-!cn"],
+                        invert: true,
+                    },
+                    {
+                        rule_set: "geoip-cn",
+                    },
                 ],
             },
             {
-                server: "dns_opendns",
+                server: "dns_fakeip",
                 query_type: ["A", "AAAA"],
             },
         ],

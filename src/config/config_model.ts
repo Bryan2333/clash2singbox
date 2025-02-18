@@ -60,6 +60,8 @@ interface DnsConfig {
         address: string;
         detour?: string;
         strategy?: string;
+        address_resolver?: string;
+        address_strategy?: string;
     }[];
     rules: DnsRule[];
     final: string;
