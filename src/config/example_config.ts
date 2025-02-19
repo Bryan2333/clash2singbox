@@ -27,6 +27,10 @@ const ExampleConfig: ConfigModel = {
                 detour: "direct",
             },
             {
+                tag: "dns_block",
+                address: "rcode://refused",
+            },
+            {
                 tag: "dns_alidns_v4",
                 address: "223.5.5.5",
                 strategy: "ipv4_only",
@@ -45,6 +49,11 @@ const ExampleConfig: ConfigModel = {
             },
         ],
         rules: [
+            {
+                server: "dns_block",
+                disable_cache: true,
+                rule_set: ["geosite-pcdn-cn"]
+            },
             {
                 server: "dns_alidns",
                 inbound: ["direct-only-v4", "direct-only-v6"],
@@ -319,6 +328,13 @@ const ExampleConfig: ConfigModel = {
                 type: "remote",
                 format: "binary",
                 url: "https://gcore.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-jetbrains@cn.srs",
+                download_detour: "direct",
+            },
+            {
+                tag: "geosite-pcdn-cn",
+                type: "remote",
+                format: "binary",
+                url: "https://gh-proxy.com/github.com/Yuu518/sing-box-rules/blob/rule_set/rule_set_site/pcdn-cn.srs",
                 download_detour: "direct",
             },
         ],
