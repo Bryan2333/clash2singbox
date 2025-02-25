@@ -31,19 +31,6 @@ const ExampleConfig: ConfigModel = {
                 address: "rcode://refused",
             },
             {
-                tag: "dns_alidns_v4",
-                address: "223.5.5.5",
-                strategy: "ipv4_only",
-                detour: "direct",
-            },
-            {
-                tag: "dns_alidns",
-                address: "h3://dns.alidns.com/dns-query",
-                detour: "direct",
-                address_resolver: "dns_local",
-                address_strategy: "prefer_ipv6",
-            },
-            {
                 tag: "dns_fakeip",
                 address: "fakeip",
             },
@@ -52,14 +39,14 @@ const ExampleConfig: ConfigModel = {
             {
                 server: "dns_block",
                 disable_cache: true,
-                rule_set: ["geosite-pcdn-cn"]
+                rule_set: ["geosite-pcdn-cn"],
             },
             {
-                server: "dns_alidns",
+                server: "dns_local",
                 inbound: ["direct-only-v4", "direct-only-v6"],
             },
             {
-                server: "dns_alidns",
+                server: "dns_local",
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -83,7 +70,7 @@ const ExampleConfig: ConfigModel = {
             },
             // 国内冷门网站
             {
-                server: "dns_alidns_v4",
+                server: "dns_local",
                 type: "logical",
                 mode: "and",
                 rules: [
