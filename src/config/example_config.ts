@@ -99,13 +99,13 @@ const ExampleConfig: ConfigModel = {
     },
     inbounds: [
         {
-            type: "socks",
+            type: "mixed",
             tag: "direct-only-v4",
             listen: "127.0.0.1",
             listen_port: 30000,
         },
         {
-            type: "socks",
+            type: "mixed",
             tag: "direct-only-v6",
             listen: "::1",
             listen_port: 30000,
@@ -168,10 +168,7 @@ const ExampleConfig: ConfigModel = {
                 outbound: "direct",
             },
             {
-                inbound: [
-                    "direct-only-v4",
-                    "direct-only-v6",
-                ],
+                inbound: ["direct-only-v4", "direct-only-v6"],
                 outbound: "direct",
             },
             {
