@@ -1,4 +1,4 @@
-import { BaseOutbound, SelectorInSingbox } from "../types/sing_box_type";
+import { BaseOutbound } from "../types/sing_box_type";
 import ExampleConfig from "../config/example_config";
 
 export function generateConfig(
@@ -21,6 +21,19 @@ export function generateConfig(
             ExampleConfig.outbounds.push(...proxy.proxies);
             selectOutbound?.outbounds?.push(proxy.name);
         }
+
+        ExampleConfig.outbounds.push({
+            type: "selector",
+            tag: "动画疯",
+            outbounds: ExampleConfig.outbounds
+                .filter((outbound) => {
+                    return (
+                        !/selector|dns-out/i.test(outbound.type) &&
+                        /TW|Taiwan|香港|台湾|HK|Hong Kong/i.test(outbound.tag)
+                    );
+                })
+                .map((outbound) => outbound.tag),
+        });
 
         console.log(JSON.stringify(ExampleConfig, null, 2));
     } catch (error) {

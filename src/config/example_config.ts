@@ -232,6 +232,10 @@ const ExampleConfig: ConfigModel = {
                 outbound: "direct",
             },
             {
+                rule_set: ["geosite-bahamut"],
+                outbound: "动画疯",
+            },
+            {
                 rule_set: [
                     "geosite-geolocation-!cn",
                     "geosite-bytedance-!cn",
@@ -324,6 +328,13 @@ const ExampleConfig: ConfigModel = {
                 type: "remote",
                 format: "binary",
                 url: "https://gcore.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-jetbrains@cn.srs",
+                download_detour: "direct",
+            },
+            {
+                tag: "geosite-bahamut",
+                type: "remote",
+                format: "binary",
+                url: "https://gcore.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-bahamut.srs",
                 download_detour: "direct",
             },
             {
