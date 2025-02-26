@@ -37,6 +37,11 @@ const ExampleConfig: ConfigModel = {
         ],
         rules: [
             {
+                query_type: ["HTTPS", "SVCB"],
+                disable_cache: true,
+                server: "dns_block",
+            },
+            {
                 server: "dns_block",
                 disable_cache: true,
                 rule_set: ["geosite-pcdn-cn"],
