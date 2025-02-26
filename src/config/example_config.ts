@@ -51,6 +51,13 @@ const ExampleConfig: ConfigModel = {
                 inbound: ["direct-only-v4", "direct-only-v6"],
             },
             {
+                domain_regex: [
+                    "adb-.*\\._adb-tls-connect\\._tcp$",
+                    ".*\\.local$",
+                ],
+                server: "dns_local",
+            },
+            {
                 server: "dns_local",
                 type: "logical",
                 mode: "and",
