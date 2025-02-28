@@ -176,6 +176,10 @@ const ExampleConfig: ConfigModel = {
                 action: "hijack-dns",
             },
             {
+                rule_set: ["geosite-pcdn-cn"],
+                action: "reject",
+            },
+            {
                 network: "udp",
                 outbound: "direct",
             },
