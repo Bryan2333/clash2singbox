@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/main.ts --platform=node --bundle --outfile=dist/clash2singbox"
+    "build": "esbuild src/main.ts --platform=node --bundle --minify --outfile=dist/clash2singbox"
   },
   "author": "",
   "license": "ISC",
