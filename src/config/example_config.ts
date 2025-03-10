@@ -44,7 +44,7 @@ const ExampleConfig: ConfigModel = {
             {
                 server: "dns_block",
                 disable_cache: true,
-                rule_set: ["geosite-pcdn-cn"],
+                rule_set: ["geosite-pcdn-cn", "geosite-category-httpdns-cn"],
             },
             {
                 server: "dns_local",
@@ -176,7 +176,7 @@ const ExampleConfig: ConfigModel = {
                 action: "hijack-dns",
             },
             {
-                rule_set: ["geosite-pcdn-cn"],
+                rule_set: ["geosite-pcdn-cn", "geosite-category-httpdns-cn"],
                 action: "reject",
             },
             {
@@ -346,6 +346,13 @@ const ExampleConfig: ConfigModel = {
                 type: "remote",
                 format: "binary",
                 url: "https://gh-proxy.com/github.com/Yuu518/sing-box-rules/blob/rule_set/rule_set_site/pcdn-cn.srs",
+                download_detour: "direct",
+            },
+            {
+                tag: "geosite-category-httpdns-cn",
+                type: "remote",
+                format: "binary",
+                url: "https://gh-proxy.com/github.com/lyc8503/sing-box-rules/blob/rule-set-geosite/geosite-category-httpdns-cn.srs",
                 download_detour: "direct",
             },
         ],
