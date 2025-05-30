@@ -1,4 +1,3 @@
-import axios from "axios";
 import YAML from "yaml";
 import { BaseProxyInClash } from "../types/clash_type";
 
@@ -23,8 +22,8 @@ export async function fetchProxies(): Promise<
         const proxies = [];
 
         for (const sub of subGroup) {
-            const content = (await axios.get(sub.url)).data;
-            const res = YAML.parse(content);
+            const response = await fetch(sub.url);
+            const res = YAML.parse(await response.text());
 
             if (res) {
                 proxies.push({
