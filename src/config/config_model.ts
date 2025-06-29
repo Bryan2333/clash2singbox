@@ -37,6 +37,7 @@ interface CommonRule {
     outbound?: string | string[];
     port?: number | number[];
     domain?: string | string[];
+    domain_suffix?: string | string[];
     domain_keyword?: string | string[];
     domain_regex?: string | string[];
     query_type?: string | string[];

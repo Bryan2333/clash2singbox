@@ -23,7 +23,7 @@ const ExampleConfig: ConfigModel = {
         servers: [
             {
                 tag: "dns_local",
-                address: "dhcp://auto",
+                address: "udp://119.29.29.29",
                 detour: "direct",
             },
             {
@@ -51,19 +51,12 @@ const ExampleConfig: ConfigModel = {
                 inbound: ["direct-only-v4", "direct-only-v6"],
             },
             {
-                domain_regex: [
-                    "adb-.*\\._adb-tls-connect\\._tcp$",
-                    ".*\\.local$",
-                ],
-                server: "dns_local",
-            },
-            {
                 server: "dns_local",
                 type: "logical",
                 mode: "and",
                 rules: [
                     {
-                        domain_regex: [".*suse\\.org\\.cn$"],
+                        domain_suffix: ["suse.org.cn", "xiaomi.eu"],
                         invert: true,
                     },
                     {
@@ -76,11 +69,21 @@ const ExampleConfig: ConfigModel = {
                             "geosite-cn",
                             "geosite-jetbrains-cn",
                         ],
-                        domain: ["ping.archlinux.org"],
+                        domain_suffix: [
+                            "ping.archlinux.org",
+                            "download.jetbrains.com",
+                            "download-cdn.jetbrains.com",
+                            "ustclug.org",
+                            "steamcontent.com",
+                            "steamstatic.com",
+                            "steamserver.net",
+                            "test.steampowered.com",
+                            "api.steampowered.com",
+                            "rmbgame.net",
+                        ],
                     },
                 ],
             },
-            // 国内冷门网站
             {
                 server: "dns_local",
                 type: "logical",
@@ -155,11 +158,10 @@ const ExampleConfig: ConfigModel = {
             default: "direct",
         },
         {
-            type: "socks",
+            type: "http",
             tag: "akko",
             server: "127.0.0.1",
             server_port: 1081,
-            network: "tcp",
         },
         {
             type: "direct",
@@ -213,7 +215,7 @@ const ExampleConfig: ConfigModel = {
                 outbound: "select",
             },
             {
-                domain_regex: [".*suse\\.org\\.cn$"],
+                domain_suffix: ["suse.org.cn", "xiaomi.eu"],
                 outbound: "select",
             },
             {
@@ -229,9 +231,16 @@ const ExampleConfig: ConfigModel = {
                 outbound: "direct",
             },
             {
-                domain_regex: [
-                    "^(download|download-cdn)\\.jetbrains\\.com$",
-                    ".*ustclug\\.org$",
+                domain_suffix: [
+                    "download.jetbrains.com",
+                    "download-cdn.jetbrains.com",
+                    "ustclug.org",
+                    "steamcontent.com",
+                    "steamstatic.com",
+                    "steamserver.net",
+                    "test.steampowered.com",
+                    "api.steampowered.com",
+                    "rmbgame.net",
                 ],
                 outbound: "direct",
             },
