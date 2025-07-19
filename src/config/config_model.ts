@@ -93,8 +93,9 @@ interface RouteConfig {
     rule_set?: {
         tag: string;
         type: string;
-        format: string;
-        url: string;
+        format?: string;
+        url?: string;
+        path?: string;
         download_detour?: string;
     }[];
     final?: string;
