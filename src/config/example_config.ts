@@ -10,7 +10,7 @@ const ExampleConfig: ConfigModel = {
     experimental: {
         clash_api: {
             external_controller: "127.0.0.1:9090",
-            external_ui: "/usr/share/metacubexd",
+            external_ui: "/usr/share/zashboard",
             secret: "password",
             default_mode: "rule",
         },
