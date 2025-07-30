@@ -16,13 +16,12 @@ const ExampleConfig: ConfigModel = {
         },
         cache_file: {
             enabled: true,
-            store_fakeip: false,
         },
     },
     dns: {
         servers: [
             {
-                tag: "dns_local",
+                tag: "dns_tencent",
                 address: "udp://119.29.29.29",
                 detour: "direct",
             },
@@ -31,8 +30,9 @@ const ExampleConfig: ConfigModel = {
                 address: "rcode://refused",
             },
             {
-                tag: "dns_fakeip",
-                address: "fakeip",
+                tag: "dns_quad9",
+                address: "tcp://9.9.9.11",
+                detour: "select",
             },
         ],
         rules: [
@@ -47,11 +47,11 @@ const ExampleConfig: ConfigModel = {
                 rule_set: ["geosite-pcdn-cn", "geosite-category-httpdns-cn"],
             },
             {
-                server: "dns_local",
+                server: "dns_tencent",
                 inbound: ["direct-only-v4", "direct-only-v6"],
             },
             {
-                server: "dns_local",
+                server: "dns_tencent",
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -82,7 +82,8 @@ const ExampleConfig: ConfigModel = {
                 ],
             },
             {
-                server: "dns_local",
+                server: "dns_quad9",
+                client_subnet: "202.96.134.133",
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -96,18 +97,14 @@ const ExampleConfig: ConfigModel = {
                 ],
             },
             {
-                server: "dns_fakeip",
+                server: "dns_quad9",
                 query_type: ["A", "AAAA"],
             },
         ],
-        final: "dns_local",
+        final: "dns_tencent",
         disable_cache: false,
         disable_expire: false,
-        fakeip: {
-            enabled: true,
-            inet4_range: "198.18.0.0/15",
-            inet6_range: "fc00::/18",
-        },
+        cache_capacity: 2048
     },
     inbounds: [
         {
@@ -184,23 +181,6 @@ const ExampleConfig: ConfigModel = {
             },
             {
                 inbound: ["direct-only-v4", "direct-only-v6"],
-                outbound: "direct",
-            },
-            {
-                type: "logical",
-                mode: "or",
-                rules: [
-                    {
-                        protocol: ["tls", "http", "quic", "ssh"],
-                    },
-                    {
-                        port: [
-                            22, 80, 53, 123, 143, 194, 443, 465, 587, 853, 993,
-                            995, 5222, 8080, 8443,
-                        ],
-                    },
-                ],
-                invert: true,
                 outbound: "direct",
             },
             {

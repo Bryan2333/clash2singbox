@@ -22,8 +22,8 @@ interface ExperimentalConfig {
         default_mode: string;
     };
     cache_file: {
-        enabled: boolean;
-        store_fakeip: boolean;
+        enabled?: boolean;
+        store_fakeip?: boolean;
     };
 }
 
