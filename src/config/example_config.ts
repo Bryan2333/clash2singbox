@@ -205,6 +205,7 @@ const ExampleConfig: ConfigModel = {
                     "geosite-cn",
                     "geosite-jetbrains-cn",
                     "geosite-steam-cn",
+                    "geosite-category-public-tracker"
                 ],
                 outbound: "direct",
             },
@@ -313,13 +314,6 @@ const ExampleConfig: ConfigModel = {
                 path: "/usr/share/sing-box/rule-set/geosite/geosite-bahamut.srs",
             },
             {
-                tag: "geosite-pcdn-cn",
-                type: "remote",
-                format: "binary",
-                url: "https://gh-proxy.com/github.com/Yuu518/sing-box-rules/blob/rule_set/rule_set_site/pcdn-cn.srs",
-                download_detour: "direct",
-            },
-            {
                 tag: "geosite-category-httpdns-cn",
                 type: "local",
                 format: "binary",
@@ -330,6 +324,19 @@ const ExampleConfig: ConfigModel = {
                 type: "local",
                 format: "binary",
                 path: "/usr/share/sing-box/rule-set/geosite/geosite-steam@cn.srs",
+            },
+            {
+                tag: "geosite-category-public-tracker",
+                type: "local",
+                format: "binary",
+                path: "/usr/share/sing-box/rule-set/geosite/geosite-category-public-tracker.srs"
+            },
+            {
+                tag: "geosite-pcdn-cn",
+                type: "remote",
+                format: "binary",
+                url: "https://gh-proxy.com/github.com/Yuu518/sing-box-rules/blob/rule_set/rule_set_site/pcdn-cn.srs",
+                download_detour: "direct",
             },
         ],
         final: "select",
