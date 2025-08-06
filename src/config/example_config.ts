@@ -22,62 +22,53 @@ const ExampleConfig: ConfigModel = {
         servers: [
             {
                 tag: "dns_tencent",
-                address: "udp://119.29.29.29",
-                detour: "direct",
-            },
-            {
-                tag: "dns_block",
-                address: "rcode://refused",
+                type: "udp",
+                server: "119.29.29.29",
             },
             {
                 tag: "dns_quad9",
-                address: "tcp://9.9.9.11",
+                type: "tcp",
+                server: "9.9.9.11",
                 detour: "select",
             },
         ],
         rules: [
             {
                 query_type: ["HTTPS", "SVCB"],
-                disable_cache: true,
-                server: "dns_block",
+                action: "predefined",
+                rcode: "REFUSED",
             },
             {
-                server: "dns_block",
-                disable_cache: true,
-                rule_set: ["geosite-pcdn-cn", "geosite-category-httpdns-cn"],
+                rule_set: ["geosite-pcdn_DDCHlsq", "geosite-httpdns_DDCHlsq"],
+                action: "predefined",
+                rcode: "REFUSED",
             },
             {
-                server: "dns_tencent",
                 inbound: ["direct-only-v4", "direct-only-v6"],
-            },
-            {
                 server: "dns_tencent",
-                rules: [
-                    {
-                        rule_set: [
-                            "geosite-private",
-                            "geosite-microsoft-cn",
-                            "geosite-apple-cn",
-                            "geosite-google-cn",
-                            "geosite-games-cn",
-                            "geosite-cn",
-                            "geosite-jetbrains-cn",
-                            "geosite-steam-cn",
-                        ],
-                        domain_suffix: [
-                            "ping.archlinux.org",
-                            "download.jetbrains.com",
-                            "download-cdn.jetbrains.com",
-                            "ustclug.org",
-                            "steamserver.net",
-                        ],
-                        domain: ["steamcdn-a.akamaihd.net"],
-                    },
-                ],
             },
             {
-                server: "dns_quad9",
-                client_subnet: "202.96.134.133",
+                rule_set: [
+                    "geosite-private",
+                    "geosite-microsoft-cn",
+                    "geosite-apple-cn",
+                    "geosite-google-cn",
+                    "geosite-games-cn",
+                    "geosite-cn",
+                    "geosite-jetbrains-cn",
+                    "geosite-steam-cn",
+                ],
+                domain_suffix: [
+                    "ping.archlinux.org",
+                    "download.jetbrains.com",
+                    "download-cdn.jetbrains.com",
+                    "ustclug.org",
+                    "steamserver.net",
+                ],
+                domain: ["steamcdn-a.akamaihd.net"],
+                server: "dns_tencent",
+            },
+            {
                 type: "logical",
                 mode: "and",
                 rules: [
@@ -89,10 +80,12 @@ const ExampleConfig: ConfigModel = {
                         rule_set: "geoip-cn",
                     },
                 ],
+                server: "dns_quad9",
+                client_subnet: "202.96.134.133",
             },
             {
-                server: "dns_quad9",
                 query_type: ["A", "AAAA"],
+                server: "dns_quad9",
             },
         ],
         final: "dns_tencent",
@@ -142,12 +135,12 @@ const ExampleConfig: ConfigModel = {
         {
             type: "selector",
             tag: "select",
-            outbounds: ["direct", "akko"],
+            outbounds: ["direct", "naiveproxy"],
             default: "direct",
         },
         {
             type: "http",
-            tag: "akko",
+            tag: "naiveproxy",
             server: "127.0.0.1",
             server_port: 1081,
         },
@@ -166,7 +159,7 @@ const ExampleConfig: ConfigModel = {
                 action: "hijack-dns",
             },
             {
-                rule_set: ["geosite-pcdn-cn", "geosite-category-httpdns-cn"],
+                rule_set: ["geosite-pcdn_DDCHlsq", "geosite-httpdns_DDCHlsq"],
                 action: "reject",
             },
             {
@@ -214,7 +207,7 @@ const ExampleConfig: ConfigModel = {
                 outbound: "direct",
             },
             {
-                rule_set: ["geosite-bahamut"],
+                rule_set: "geosite-bahamut",
                 outbound: "动画疯",
             },
             {
@@ -308,12 +301,6 @@ const ExampleConfig: ConfigModel = {
                 path: "/usr/share/sing-box/rule-set/geosite/geosite-bahamut.srs",
             },
             {
-                tag: "geosite-category-httpdns-cn",
-                type: "local",
-                format: "binary",
-                path: "/usr/share/sing-box/rule-set/geosite/geosite-category-httpdns-cn.srs",
-            },
-            {
                 tag: "geosite-steam-cn",
                 type: "local",
                 format: "binary",
@@ -326,14 +313,20 @@ const ExampleConfig: ConfigModel = {
                 path: "/usr/share/sing-box/rule-set/geosite/geosite-category-public-tracker.srs",
             },
             {
-                tag: "geosite-pcdn-cn",
-                type: "remote",
+                tag: "geosite-httpdns_DDCHlsq",
+                type: "local",
                 format: "binary",
-                url: "https://gh-proxy.com/github.com/Yuu518/sing-box-rules/blob/rule_set/rule_set_site/pcdn-cn.srs",
-                download_detour: "direct",
+                path: "/usr/share/sing-box/rule-set/geosite/httpdns_DDCHlsq.srs",
+            },
+            {
+                tag: "geosite-pcdn_DDCHlsq",
+                type: "local",
+                format: "binary",
+                path: "/usr/share/sing-box/rule-set/geosite/pcdn_DDCHlsq.srs",
             },
         ],
         final: "select",
+        default_domain_resolver: "dns_tencent",
     },
 };
 

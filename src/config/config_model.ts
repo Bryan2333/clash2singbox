@@ -23,7 +23,6 @@ interface ExperimentalConfig {
     };
     cache_file: {
         enabled?: boolean;
-        store_fakeip?: boolean;
     };
 }
 
@@ -49,7 +48,9 @@ interface CommonRule {
 }
 
 interface DnsRule extends CommonRule {
-    server: string;
+    server?: string;
+    action?: string;
+    rcode?: string;
     disable_cache?: boolean;
     rewrite_ttl?: number;
     client_subnet?: string;
@@ -58,24 +59,19 @@ interface DnsRule extends CommonRule {
 interface DnsConfig {
     servers: {
         tag: string;
-        address: string;
+        type: string;
+        server?: string;
+        server_port?: number;
         detour?: string;
-        strategy?: string;
-        address_resolver?: string;
-        address_strategy?: string;
     }[];
     rules: DnsRule[];
     final: string;
     strategy?: string;
     disable_cache?: boolean;
-    disable_expire: boolean;
+    disable_expire?: boolean;
     independent_cache?: boolean;
     reverse_mapping?: boolean;
-    fakeip?: {
-        enabled: boolean;
-        inet4_range?: string;
-        inet6_range?: string;
-    };
+    cache_capacity?: number;
 }
 
 interface Inbound {
@@ -99,6 +95,7 @@ interface RouteConfig {
         download_detour?: string;
     }[];
     final?: string;
+    default_domain_resolver: string;
 }
 
 export default interface ConfigModel {

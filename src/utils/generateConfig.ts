@@ -1,5 +1,6 @@
 import { BaseOutbound } from "../types/sing_box_type";
 import ExampleConfig from "../config/example_config";
+import { EOL } from "node:os";
 
 export function generateConfig(
     newProxies: { name: string; proxies: BaseOutbound[] }[]
@@ -35,7 +36,7 @@ export function generateConfig(
                 .map((outbound) => outbound.tag),
         });
 
-        console.log(JSON.stringify(ExampleConfig, null, 2));
+        console.log(JSON.stringify(ExampleConfig, null, 2) + EOL);
     } catch (error) {
         console.error("Failed to generate configuration:", error);
         throw error;
