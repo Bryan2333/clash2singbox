@@ -52,13 +52,7 @@ const ExampleConfig: ConfigModel = {
             },
             {
                 server: "dns_tencent",
-                type: "logical",
-                mode: "and",
                 rules: [
-                    {
-                        domain_suffix: ["suse.org.cn", "xiaomi.eu"],
-                        invert: true,
-                    },
                     {
                         rule_set: [
                             "geosite-private",
@@ -104,7 +98,7 @@ const ExampleConfig: ConfigModel = {
         final: "dns_tencent",
         disable_cache: false,
         disable_expire: false,
-        cache_capacity: 2048
+        cache_capacity: 2048,
     },
     inbounds: [
         {
@@ -205,7 +199,7 @@ const ExampleConfig: ConfigModel = {
                     "geosite-cn",
                     "geosite-jetbrains-cn",
                     "geosite-steam-cn",
-                    "geosite-category-public-tracker"
+                    "geosite-category-public-tracker",
                 ],
                 outbound: "direct",
             },
@@ -329,7 +323,7 @@ const ExampleConfig: ConfigModel = {
                 tag: "geosite-category-public-tracker",
                 type: "local",
                 format: "binary",
-                path: "/usr/share/sing-box/rule-set/geosite/geosite-category-public-tracker.srs"
+                path: "/usr/share/sing-box/rule-set/geosite/geosite-category-public-tracker.srs",
             },
             {
                 tag: "geosite-pcdn-cn",
