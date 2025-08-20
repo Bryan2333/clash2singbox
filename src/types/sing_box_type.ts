@@ -1,3 +1,9 @@
+// Converted proxy group type
+interface SingboxConvertedProxyGroup {
+    name: string;
+    proxies: BaseOutbound[];
+}
+
 interface TransportInSingbox {
     type: string;
     service_name?: string; // grpc
@@ -56,6 +62,7 @@ interface VlessInSingbox extends BaseOutbound {
 }
 
 export {
+    SingboxConvertedProxyGroup,
     BaseOutbound,
     TlsInSingbox,
     TransportInSingbox,

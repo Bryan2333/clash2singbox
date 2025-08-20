@@ -16,9 +16,9 @@ import { parseTransport } from "./parseTransport";
 import { parseTLS } from "./parseTLS";
 
 export function convertProxies(
-    proxies: BaseProxyInClash[]
+    clashProxies: BaseProxyInClash[]
 ): BaseOutbound[] {
-    return proxies.map((proxy) => {
+    return clashProxies.map((proxy) => {
         switch (proxy.type) {
             case "ss":
                 return convertShadowsocks(proxy as SsInClash);

@@ -1,25 +1,9 @@
 import YAML from "yaml";
-import { BaseProxyInClash } from "../types/clash_type";
+import {  ClashSubscriptionGroup, ClashFetchedProxyGroup } from "../types/clash_type";
 
-export async function fetchProxies(): Promise<
-    { name: string; content: BaseProxyInClash[] }[]
-> {
+export async function fetchProxies(subGroup: ClashSubscriptionGroup[]): Promise<ClashFetchedProxyGroup[]> {
     try {
-        const args = process.argv.slice(2);
-
-        const subGroup: { name: string; url: string }[] = [];
-        args.forEach((arg) => {
-            if (arg.startsWith("--sub=")) {
-                const pair = arg.slice("--sub=".length);
-                const [name, ...urlParts] = pair.split("=");
-                subGroup.push({
-                    name: name,
-                    url: urlParts.join("="),
-                });
-            }
-        });
-
-        const proxies = [];
+        const proxies: ClashFetchedProxyGroup[] = [];
 
         for (const sub of subGroup) {
             const response = await fetch(sub.url);

@@ -1,3 +1,14 @@
+// Subscription and proxy data types
+interface ClashSubscriptionGroup {
+    name: string;
+    url: string;
+}
+
+interface ClashFetchedProxyGroup {
+    name: string;
+    content: BaseProxyInClash[];
+}
+
 interface TransportInClash {
     network?: string;
     "h2-opts"?: {
@@ -67,6 +78,8 @@ interface VlessInClash
 }
 
 export {
+    ClashSubscriptionGroup,
+    ClashFetchedProxyGroup,
     BaseProxyInClash,
     TlsInClash,
     TransportInClash,
